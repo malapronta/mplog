@@ -1,6 +1,9 @@
 Malapronta Logger behavior
 ====================================
 
+[![Latest Stable Version](https://poser.pugx.org/malapronta/mplog/v/stable.png)](https://packagist.org/packages/malapronta/mplog)
+[![Total Downloads](https://poser.pugx.org/malapronta/mplog/downloads.png)](https://packagist.org/packages/malapronta/mplog)
+
 Overview
 --------
 
