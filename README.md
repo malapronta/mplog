@@ -10,6 +10,18 @@ Overview
 This is a Doctrine2 behavior extension, based on  Gedmo
 
 
+Install
+-------
+Add MPLog in your composer.json:
+
+```js
+{
+    "require": {
+        "malapronta/mplog": "dev-master"
+    }
+}
+```
+
 Using
 -----
 
