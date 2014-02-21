@@ -24,8 +24,44 @@ Add MPLog in your composer.json:
 
 Using
 -----
+1) Configure your doctrine extensions file
 
-1) Configure your Listener class
+``` yaml
+# app/config/doctrine_extensions.yml
+
+services:
+    malapronta.listener.eventpersist:
+        class: Ota\ServiceBundle\Listener\EventPersistListener
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: postFlush }
+            
+    # KernelRequest listener
+    extension.listener:
+        class: Ota\ServiceBundle\Listener\DoctrineExtensionListener
+        calls:
+            - [ setContainer, [ @service_container ] ]
+        tags:
+            # loggable hooks user username if one is in security context
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    # Doctrine Extension listeners to handle behaviors
+    malapronta.listener.mplog:
+        class: Malapronta\MpLog\MpLoggerListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ @annotation_reader ] ]
+```
+
+And import in your config.yml file
+
+``` yaml
+imports:
+    - { resource: doctrine_extensions.yml }
+```
+
+2) Configure your Listener class
 
 ```php
 
@@ -69,7 +105,7 @@ class DoctrineExtensionListener implements ContainerAwareInterface
 }
 ``` 
  
-2) Configure your Entity class
+3) Configure your Entity class
 
 ```php
 
