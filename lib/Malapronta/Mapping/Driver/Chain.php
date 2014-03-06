@@ -51,6 +51,7 @@ class Chain implements Driver
         foreach ($this->_drivers as $namespace => $driver) {
             if (strpos($meta->name, $namespace) === 0) {
                 $driver->readExtendedMetadata($meta, $config);
+
                 return;
             }
         }

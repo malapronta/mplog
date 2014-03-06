@@ -70,6 +70,7 @@ class ODM implements AdapterInterface
         if (!is_null($this->dm)) {
             return $this->dm;
         }
+
         return $this->__call('getDocumentManager', array());
     }
 
@@ -82,6 +83,7 @@ class ODM implements AdapterInterface
             throw new \Exception("Event args must be set before calling its methods");
         }
         $method = str_replace('Object', $this->getDomainObjectName(), $method);
+
         return call_user_func_array(array($this->args, $method), $args);
     }
 

@@ -10,8 +10,6 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\EventArgs;
 
-use Malapronta\Mapping\ExtensionMetadataFactory;
-
 /**
  * This is extension of event subscriber class and is
  * used specifically for handling the extension metadata
@@ -85,7 +83,7 @@ abstract class MappedEventSubscriber implements EventSubscriber
      * Get an event adapter to handle event specific
      * methods
      *
-     * @param EventArgs $args
+     * @param  EventArgs                                 $args
      * @throws \Gedmo\Exception\InvalidArgumentException - if event is not recognized
      * @return \Gedmo\Mapping\Event\AdapterInterface
      */
@@ -101,9 +99,12 @@ abstract class MappedEventSubscriber implements EventSubscriber
                 $this->adapters[$m[1]] = new $adapterClass;
             }
             $this->adapters[$m[1]]->setEventArgs($args);
+
             return $this->adapters[$m[1]];
         } else {
-            throw new \Gedmo\Exception\InvalidArgumentException('Event mapper does not support event arg class: '.$class);
+            throw new \Gedmo\Exception\InvalidArgumentException(
+                'Event mapper does not support event arg class: ' . $class
+            );
         }
     }
 
@@ -111,11 +112,12 @@ abstract class MappedEventSubscriber implements EventSubscriber
      * Get the configuration for specific object class
      * if cache driver is present it scans it also
      *
-     * @param ObjectManager $objectManager
-     * @param string $class
+     * @param  ObjectManager $objectManager
+     * @param  string        $class
      * @return array
      */
-    public function getConfiguration(ObjectManager $objectManager, $class) {
+    public function getConfiguration(ObjectManager $objectManager, $class)
+    {
         $config = array();
         if (isset(self::$configurations[$this->name][$class])) {
             $config = self::$configurations[$this->name][$class];
@@ -142,13 +144,14 @@ abstract class MappedEventSubscriber implements EventSubscriber
 
             }
         }
+
         return $config;
     }
 
     /**
      * Get extended metadata mapping reader
      *
-     * @param ObjectManager $objectManager
+     * @param  ObjectManager                          $objectManager
      * @return Gedmo\Mapping\ExtensionMetadataFactory
      */
     public function getExtensionMetadataFactory(ObjectManager $objectManager)
@@ -165,6 +168,7 @@ abstract class MappedEventSubscriber implements EventSubscriber
                 $this->annotationReader
             );
         }
+
         return $this->extensionMetadataFactory[$oid];
     }
 
@@ -188,8 +192,8 @@ abstract class MappedEventSubscriber implements EventSubscriber
      * Scans the objects for extended annotations
      * event subscribers must subscribe to loadClassMetadata event
      *
-     * @param ObjectManager $objectManager
-     * @param object $metadata
+     * @param  ObjectManager $objectManager
+     * @param  object        $metadata
      * @return void
      */
     public function loadMetadataForObjectClass(ObjectManager $objectManager, $metadata)
@@ -230,7 +234,7 @@ abstract class MappedEventSubscriber implements EventSubscriber
                     __DIR__ . '/../../'
                 );
                 $reader = new \Doctrine\Common\Annotations\CachedReader($reader, new ArrayCache());
-            } else if (version_compare(\Doctrine\Common\Version::VERSION, '2.1.0RC4-DEV', '>=')) {
+            } elseif (version_compare(\Doctrine\Common\Version::VERSION, '2.1.0RC4-DEV', '>=')) {
                 $reader = new \Doctrine\Common\Annotations\AnnotationReader();
                 \Doctrine\Common\Annotations\AnnotationRegistry::registerAutoloadNamespace(
                     'Malapronta\\Mapping\\Annotation',
@@ -238,7 +242,7 @@ abstract class MappedEventSubscriber implements EventSubscriber
                 );
                 $reader->setDefaultAnnotationNamespace('Doctrine\ORM\Mapping\\');
                 $reader = new \Doctrine\Common\Annotations\CachedReader($reader, new ArrayCache());
-            } else if (version_compare(\Doctrine\Common\Version::VERSION, '2.1.0-BETA3-DEV', '>=')) {
+            } elseif (version_compare(\Doctrine\Common\Version::VERSION, '2.1.0-BETA3-DEV', '>=')) {
                 $reader = new \Doctrine\Common\Annotations\AnnotationReader();
                 $reader->setDefaultAnnotationNamespace('Doctrine\ORM\Mapping\\');
                 $reader->setIgnoreNotImportedAnnotations(true);
@@ -246,7 +250,8 @@ abstract class MappedEventSubscriber implements EventSubscriber
                 $reader->setEnableParsePhpImports(false);
                 $reader->setAutoloadAnnotations(true);
                 $reader = new \Doctrine\Common\Annotations\CachedReader(
-                    new \Doctrine\Common\Annotations\IndexedReader($reader), new ArrayCache()
+                    new \Doctrine\Common\Annotations\IndexedReader($reader),
+                    new ArrayCache()
                 );
             } else {
                 $reader = new \Doctrine\Common\Annotations\AnnotationReader();
@@ -256,6 +261,7 @@ abstract class MappedEventSubscriber implements EventSubscriber
             }
             self::$defaultAnnotationReader = $reader;
         }
+
         return self::$defaultAnnotationReader;
     }
 }

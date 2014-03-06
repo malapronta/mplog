@@ -19,8 +19,8 @@ interface Driver
      * Read extended metadata configuration for
      * a single mapped class
      *
-     * @param object $meta
-     * @param array $config
+     * @param  object $meta
+     * @param  array  $config
      * @return void
      */
     public function readExtendedMetadata($meta, array &$config);

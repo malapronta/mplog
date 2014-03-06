@@ -1,7 +1,7 @@
 {
     "name":         "malapronta/mplog",
     "homepage":     "http://www.malapronta.com.br",
-    "description":  "A Doctrine2 behavior based on Gedmo extensions", 
+    "description":  "A Doctrine2 behavior based on Gedmo extensions",
     "keywords":     ["malapronta", "doctrine2", "symfony"],
     "license":      "MIT",
     "authors": [
@@ -9,15 +9,15 @@
             "name":   "Marcos Vinicius Joia Lazarin",
             "email":  "marcos.joia@malapronta.com.br"
         }
-    ],  
+    ],
     "require": {
         "php": ">=5.3.0",
         "symfony/framework-bundle": "2.*"
     },
     "autoload": {
         "psr-0": {
-            "mplog": ""
+            "Malapronta": "lib/"
         }
     }
-    
+
 }
