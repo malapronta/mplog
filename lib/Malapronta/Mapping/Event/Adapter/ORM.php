@@ -61,6 +61,7 @@ class ORM implements AdapterInterface
             throw new \Exception("Event args must be set before calling its methods");
         }
         $method = str_replace('Object', $this->getDomainObjectName(), $method);
+
         return call_user_func_array(array($this->args, $method), $args);
     }
 
@@ -82,6 +83,7 @@ class ORM implements AdapterInterface
         if (!is_null($this->em)) {
             return $this->em;
         }
+
         return $this->__call('getEntityManager', array());
     }
 

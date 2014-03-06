@@ -2,7 +2,6 @@
 
 namespace Malapronta\MpLog\Mapping\Driver;
 
-use Doctrine\ORM\Mapping\ClassMetadata;
 use Malapronta\Mapping\Driver\AbstractAnnotationDriver;
 
 /**

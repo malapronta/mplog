@@ -45,18 +45,18 @@ abstract class File implements Driver
     /**
      * Set the paths for file lookup
      *
-     * @param array $paths
+     * @param  array $paths
      * @return void
      */
     public function setPaths($paths)
     {
-        $this->_paths = (array)$paths;
+        $this->_paths = (array) $paths;
     }
 
     /**
      * Set the file extension
      *
-     * @param string $extension
+     * @param  string $extension
      * @return void
      */
     public function setExtension($extension)
@@ -68,7 +68,7 @@ abstract class File implements Driver
      * Loads a mapping file with the given name and returns a map
      * from class/entity names to their corresponding elements.
      *
-     * @param string $file The mapping file to load.
+     * @param  string $file The mapping file to load.
      * @return array
      */
     abstract protected function _loadMappingFile($file);

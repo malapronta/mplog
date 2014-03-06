@@ -7,7 +7,6 @@ use Doctrine\Common\Persistence\Mapping\Driver\SymfonyFileLocator;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\Tools\DisconnectedClassMetadataFactory;
 
 use Malapronta\Mapping\Driver\File as FileDriver;
 use Malapronta\Mapping\Driver\AnnotationDriverInterface;
@@ -54,8 +53,8 @@ final class ExtensionMetadataFactory
      * Initializes extension driver
      *
      * @param ObjectManager $objectManager
-     * @param string $extensionNamespace
-     * @param object $annotationReader
+     * @param string        $extensionNamespace
+     * @param object        $annotationReader
      */
     public function __construct(ObjectManager $objectManager, $extensionNamespace, $annotationReader)
     {
@@ -69,8 +68,8 @@ final class ExtensionMetadataFactory
     /**
      * Reads extension metadata
      *
-     * @param object $meta
-     * @return array - the metatada configuration
+     * @param  object $meta
+     * @return array  - the metatada configuration
      */
     public function getExtensionMetadata($meta)
     {
@@ -115,8 +114,8 @@ final class ExtensionMetadataFactory
     /**
      * Get the cache id
      *
-     * @param string $className
-     * @param string $extensionNamespace
+     * @param  string $className
+     * @param  string $extensionNamespace
      * @return string
      */
     public static function getCacheId($className, $extensionNamespace)
@@ -128,8 +127,8 @@ final class ExtensionMetadataFactory
      * Get the extended driver instance which will
      * read the metadata required by extension
      *
-     * @param object $omDriver
-     * @throws DriverException if driver was not found in extension
+     * @param  object                $omDriver
+     * @throws DriverException       if driver was not found in extension
      * @return \Gedmo\Mapping\Driver
      */
     private function getDriver($omDriver)
@@ -164,7 +163,7 @@ final class ExtensionMetadataFactory
                 /** @var $driver FileDriver */
                 if ($omDriver instanceof MappingDriver) {
                     $driver->setLocator($omDriver->getLocator());
-                // BC for Doctrine 2.2
+                    // BC for Doctrine 2.2
                 } elseif ($isSimplified) {
                     $driver->setLocator(new SymfonyFileLocator($omDriver->getNamespacePrefixes(), $omDriver->getFileExtension()));
                 } else {
@@ -175,6 +174,7 @@ final class ExtensionMetadataFactory
                 $driver->setAnnotationReader($this->annotationReader);
             }
         }
+
         return $driver;
     }
 }

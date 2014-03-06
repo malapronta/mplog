@@ -2,8 +2,6 @@
 
 namespace Malapronta\Mapping\Driver;
 
-use Malapronta\Mapping\Driver\AnnotationDriverInterface;
-
 /**
  * This is an abstract class to implement common functionality
  * for extension annotation mapping drivers.
@@ -88,7 +86,7 @@ abstract class AbstractAnnotationDriver implements AnnotationDriverInterface
 
     /**
      * @param Doctrine\ORM\Mapping\ClassMetadata $meta
-     * @param array         $config
+     * @param array                              $config
      */
     public function validateFullMetadata(\Doctrine\ORM\Mapping\ClassMetadata $meta, array $config)
     {
