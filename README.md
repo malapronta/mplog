@@ -35,7 +35,7 @@ services:
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: postFlush }
-            
+
     # KernelRequest listener
     extension.listener:
         class: Ota\ServiceBundle\Listener\DoctrineExtensionListener
@@ -88,7 +88,7 @@ class DoctrineExtensionListener implements ContainerAwareInterface
     }
 
     public function onKernelRequest(GetResponseEvent $event)
-    { 
+    {
         $securityContext = $this->container->get('security.context', ContainerInterface::NULL_ON_INVALID_REFERENCE);
         if(null !== $securityContext && null !== $securityContext->getToken() && $securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $loggable = $this->container->get('malapronta.listener.mplog');
@@ -97,14 +97,14 @@ class DoctrineExtensionListener implements ContainerAwareInterface
             $loggable->setUpdatedByType('TYPE_NAME');
         }
     }
-  
+
     private function getRemoteAddr()
     {
         return isset($_SERVER['REMOTE_ADDR']) ? trim($_SERVER['REMOTE_ADDR']) : '';
     }
 }
-``` 
- 
+```
+
 3) Configure your Entity class
 
 ```php
@@ -123,7 +123,7 @@ use Malapronta\Mapping\Annotation as Malapronta;
  * @ORM\Table(name="foo")
  * @Malapronta\MpLogger
  */
-class Foo 
+class Foo
 {
     /**
      * @ORM\Id
@@ -131,22 +131,74 @@ class Foo
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
-    /** 
-     * @ORM\Column(name="updated_by_user", type="integer") 
+
+    /**
+     * @ORM\Column(name="updated_by_user", type="integer")
      */
     private $updatedByUser;
-    
-    /** 
-     * @ORM\Column(name="updated_by_ip", type="string", length=39) 
+
+    /**
+     * @ORM\Column(name="updated_by_ip", type="string", length=39)
      */
     private $updatedByIp;
-    
-    /** 
-     * @ORM\Column(name="updated_by_type", type="string", length=255) 
+
+    /**
+     * @ORM\Column(name="updated_by_type", type="string", length=255)
      */
     private $updatedByType;
-    
+
     // implement get and set methods
+}
+```
+
+4) Configure your Event Persist Listener
+
+```php
+<?php
+
+// src/Your/NameBundle/Entity/Foo.php
+
+namespace Your\NameBundle\Entity;
+
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PostFlushEventArgs;
+
+use Ota\ServiceBundle\Entity\InquiryHistory;
+use Ota\ServiceBundle\Entity\InquiryHospitality;
+
+/**
+ * EventPersistListener class implements doctrine events
+ *
+ * @package Ota\ServiceBundle\Listener
+ * @since   2013-10-03
+ */
+class EventPersistListener
+{
+    private $needsFlush;
+
+    /**
+     * preUpdate hook
+     */
+    public function preUpdate(LifecycleEventArgs $args)
+    {
+        $entity = $args->getEntity();
+        $entityManager = $args->getEntityManager();
+        $fields = array();
+
+        if ($entity instanceof Foo) {
+            // do some magic stuff
+        }
+    }
+
+    /**
+     * postFlush hook
+     */
+    public function postFlush(PostFlushEventArgs $eventArgs)
+    {
+        if ($this->needsFlush) {
+            $this->needsFlush = false;
+            $eventArgs->getEntityManager()->flush();
+        }
+    }
 }
 ```
