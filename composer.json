@@ -16,8 +16,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Malapronta\\MpLog\\": "lib/",
-            "Malapronta\\Mapping\\": "lib/"
+            "Malapronta": "lib/"
         }
     }
 
