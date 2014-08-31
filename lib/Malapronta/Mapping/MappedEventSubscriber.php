@@ -96,7 +96,7 @@ abstract class MappedEventSubscriber implements EventSubscriber
                 if (!class_exists($adapterClass)) {
                     $adapterClass = 'Malapronta\\Mapping\\Event\\Adapter\\'.$m[1];
                 }
-                $this->adapters[$m[1]] = new $adapterClass;
+                $this->adapters[$m[1]] = new $adapterClass();
             }
             $this->adapters[$m[1]]->setEventArgs($args);
 
